@@ -1,0 +1,23 @@
+<header style="background-image:url ({{ website_data.header_image | attachment_url: 'default' }})">
+  <div class="header-content">
+    <div class="header-text">
+      <h2 class="header-content-name">
+        {% if website_data.logo_text == nil or website_data.logo_text == '' %}
+          <img src="{{website_data.logo | attachment_url: 'default' }}" />
+        {% else %}
+          {{website_data.logo_text}}
+        {% endif %}
+      </h2>
+      <p class="sheader-content-specials">
+        {{website_data.header_text_1}}
+      </p>
+      <hr class="header-content-line">
+        <p class="hedaer-content-callus">
+          {{website_data.header_text_2}}
+        </p>
+      </hr>
+    </div>
+  </div>
+  <div class="default-block-container about-text">
+    Page not found
+  </div>

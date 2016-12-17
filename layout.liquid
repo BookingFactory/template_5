@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      {{website_data.page_title}}
+      {% if record and record.title %}
+        : {{record.title}}
+      {% elsif page and page.title %}
+        : {{page.title}}
+      {% elsif room and room.title %}
+        : {{room.title}}
+      {% endif %}
+    </title>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    {% if record and record.meta_description %}
+      <meta content="{{recrod.meta_description}}" name="description"/>
+    {% elsif page and page.meta_description %}
+      <meta content="{{page.meta_description}}" name="description"/>
+    {% elsif room and room.meta_description %}
+      <meta content="{{room.meta_description}}" name="description" />
+    {% else %}
+      <meta content="{{website_data.page_description}}" name="description" />
+    {% endif %}
+    <meta name="engine" content="new" />
+    <meta content="{{website_data.page_keywords}}" name="keywords"/>
+    <meta content="en_UK" property="og:locale"/>
+    <meta content="website" property="og:type"/>
+    <meta content="{{website_data.page_title}}" property="og:title"/>
+    <meta content="{{website_data.page_description}}" property="og:description"/>
+    <meta content="{{website_data.page_title}}" property="og:site_name"/>
+    <style>
+      #loading-overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: #fff;
+        background-size: 25%;
+        background-image: {{ website.data.logo }};
+        background-position: center center;
+        background-repeat: no-repeat;
+        opacity: 1;
+        transition: opacity 0.5s;
+        z-index: 100;
+      }
+      #loading-overlay.hidden{
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      .hotel-name {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        -o-transform: translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        -webkit-transform: translate(-50%,-50%);
+        width: 90%;
+        font-size: 48px;
+        text-transform: uppercase;
+        color: #6b635e;
+        font-family: sans-serif;
+        text-align: center;
+      }
+      {% if website_data.brand_color != '' %}
+          a.menu-button-book,
+          a.button-book,
+          .leave-message,
+          .contact-us-form_input-submit{
+          color: {{website_data.brand_color}};
+          border-color: {{website_data.brand_color}};
+          }
+          a.menu-button-book, a.button-book, .leave-message.leave-message-clicked{
+          color: #ffffff;
+          background-color: {{website_data.brand_color}};
+          }
+          .rooms-choice-link:link, .rooms-choice-link:visited,
+          .specials-element-image i{
+          color: {{website_data.brand_color}};
+          }
+          .specials-element-image,
+          .specials-element:hover .specials-content,
+          .FAQ-short-line,
+          .header-content-line,
+          .rooms-choice,
+          .contact-us-form_input-small,
+          .contact-us-form_input{
+          border-color: {{website_data.brand_color}};
+          }
+          .short-line,
+          .specials-element:hover .specials-element-image{
+          background-color: {{website_data.brand_color}};
+          }
+      {% endif %}
+    </style>
+  </head>
+  <div id="loading-overlay">
+    {% unless website_data.logo == nil %}
+      <div class="hotel-name">{{website_data.header_text_1}}</div>
+    {% endunless %}
+  </div>
+  <noscript id="deferred-styles">
+    <link rel="shortcut icon" href="{{ website_data.favicon | attachment_url: 'default' }}" type="image/png" />
+    <link href="{{ '/css/template.css' | file_url: website_data.template }}" rel="stylesheet" />
+  </noscript>
+  <body data-hotel="{{website_data.hotel_id}}">
+    <div id="fixer"></div>
+    {% include 'mobile_navigation' %}
+    <main id="panel">
+      <div class="top-bar">
+        {% if website_data.booking_link.nil or website_data.booking_link == '' %}
+          <a href="{{ '/book' | link_to: website_data.link_object}}" class="booking-form-link menu-button-book">Book Now</a>
+        {% else %}
+          <a href="{{website_data.booking_link}}" class="menu-button-book">Book Now</a>
+        {% endif %}
+        <div class="menu-toggle open-big-menu"></div>
+      </div>
+      <div class="mobile-menu">
+        <div class="menu-toggle open-menu">
+          {% if website_data.booking_link.nil or website_data.booking_link == '' %}
+            <a href="{{ '/book' | link_to: website_data.link_object}}" class="booking-form-link menu-button-book">Book Now</a>
+          {% else %}
+            <a href="{{website_data.booking_link}}" class="menu-button-book">Book Now</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="menu">
+        <div class="menu-content">
+          {% if website_data.logo_text == nil or website_data.logo_text == '' %}
+            <img src="{{website_data.logo | attachment_url: 'default' }}" />
+          {% else %}
+            <span class="menu-logo">
+              {{website_data.logo_text}}
+            </span>
+          {% endif %}
+        </div>
+        <img class="menu-start" src="/5/images/menu-hr.png" />
+        {% for link in website_data.top_links %}
+          {% if link.links.size == 0 %}
+            {% if link.category == 'Predefined Link' %}
+              {% if link.value == 'home' %}
+                <a href="{{ '' | link_to: website_data.link_object}}" class="menu-item">{{link.title}}</a>
+                <hr class="menu-hr">
+              {% elsif link.value == 'rooms' %}
+                <a href="{{ '#rooms' | link_to: website_data.link_object }}" class="menu-item">{{link.title}}</a>
+                <hr class="menu-hr">
+              {% elsif link.value == 'features' %}
+                <a href="{{ '#fetaures' | link_to: website_data.link_object }}" class="menu-item">{{link.title}}</a>
+                <hr class="menu-hr">
+              {% elsif link.value == 'faq' %}
+                <a href="{{ '#faq' | link_to: website_data.link_object }}" class="menu-item"> {{link.title}} </a>
+                <hr class="menu-hr">
+              {% elsif  link.value == 'about' %}
+                <a href="{{ '/about' | link_to: website_data.link_object }}" class="menu-item">{{link.title}}</a>
+                <hr class="menu-hr">
+              {% elsif link.value == 'blog' %}
+                <a href="{{ '/blog' | link_to: website_data.link_object}}" class="menu-item">{{link.title}}</a>
+                <hr class="menu-hr">
+              {% elsif link.value == 'terms-and-conditions' %}
+                <a href="{{ '/terms-and-conditions' | link_to: website_data.link_object}}" class="menu-item">{{link.title}}</a>
+                <hr class="menu-hr">
+              {% elsif link.value == 'privacy-policy' %}
+                <a href="{{ '/privacy-policy'}}" class="menu-item">{{link.title}}</a>
+                <hr class="menu-hr">
+              {% elsif link.value == 'booking'%}
+                {% if website_data.booking_link == nil or website_data.booking_link == "" %}
+                  <a href="{{ '/book' | link_to: website_data.link_object}}" class="menu-item">{{link.title}}</a>
+                {% else %}
+                  <a href="{{website_data.booking_link}}" class="menu-item">{{link.title}}</a>
+                {% endif %}
+                <hr class="menu-hr">
+              {% endif %}
+            {% elsif link.category == 'Custom Page Link' %}
+              <a href="{{link.value | link_to: website_data.link_object}}" class="menu-item">{{link.title}}</a>
+              <hr class="menu-hr">
+            {% elsif link.category == 'Blog Record Link' %}
+              <a href="{{ '/blog/' | append: link.value | link_to: website_data.link_object}}" class="menu-item">{{link.title}}</a>
+              <hr class="menu-hr">
+            {% elsif link.category == 'Room Page Link' %}
+              <a href="{{ link.value | link_to: website_data.link_object}}" class="menu-item">{{link.title}}</a>
+              <hr class="menu-hr">
+            {% else %}
+              <a href="{{link.value | link_to: website_data.link_object}}" class="menu-item">{{link.title}}</a>
+              <hr class="menu-hr">
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        <img class="menu-end" alt="" src="/5/images/menu-hr.png" />
+        <p class="menu-address">
+          <span class="bold-black">
+            {{website_data.address}}
+          </span>
+        </p>
+        <p class="menu-phone">
+          <span class="bold-black">
+            <i class="fa fa-phone fa-lg">
+              {{website_data.phone_number}}
+            </i>
+          </span>
+        </p>
+        {% if website_data.booking_link == nil or website_data.booking_link == "" %}
+          <a href="{{'/book' | link_to: website_data.link_object}}" class="booking-form-link menu-button-book">Book Now</a>
+        {% else %}
+          <a href="{{website_data.booking_link}}" class="menu-button-book">Book Now</a>
+        {% endif %}
+      </div>
+      <div class="main-container">
+        {{content}}
+      </div>
+      {% include 'booking_form' %}
+    </main>
+    <script>
+
+      var loadDeferredStyles = function() {
+        var addStylesNode = document.getElementById("deferred-styles");
+        var replacement = document.createElement("div");
+        var fixer = document.getElementById("fixer");
+        replacement.innerHTML = addStylesNode.textContent;
+        document.body.appendChild(replacement)
+        addStylesNode.parentElement.removeChild(addStylesNode);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      var hideElement = setInterval(function() {
+        if (fixer.clientHeight == 100) {
+          var overlay = document.getElementById('loading-overlay');
+          overlay.remove()
+          loadScript();
+          clearInterval(hideElement);
+        }
+      }, 200);
+      if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+      else window.addEventListener('load', loadDeferredStyles);
+    </script>
+    <script async src="{{ '/js/template.js' | file_url: website_data.template }}"></script>
+  </body>
+</html>

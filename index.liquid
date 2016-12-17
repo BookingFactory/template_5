@@ -1,0 +1,405 @@
+<header style="background-image: url({{website_data.header_image | attachment_url: 'default' }});">
+  <div class="header-content">
+    <div class="header-text">
+      <h2 class="header-content-name">
+        {% if website_data.logo_text == nil or website_data.logo_text == '' %}
+          <img src="{{ website_data.logo | attachment_url: 'bigger'}}" />
+        {% else %}
+          {{website_data.logo_text}}
+        {% endif %}
+      </h2>
+      <p class="header-content-specials">
+        {{website_data.header_text_1}}
+      </p>
+      <hr class="header-content-line">
+        <p class="hedaer-content-callus">
+          {{website_data.header_text_2}}
+        </p>
+      </hr>
+    </div>
+  </div>
+</header>
+<div class="default-block-container about-text">
+  {{website_data.text_area}}
+</div>
+{% if website_data.membership_active %}
+  <div class="insider" id="insiders">
+    <div class="container bottom-border">
+      <div class="insiders" style="background: {{website_data.membership_description_color}}; background: -moz-linear-gradient(left,  {{website_data.membership_description_color}} 0%, {{website_data.membership_description_color}} 50%, {{website_data.membership_form_color}} 50%, {{website_data.membership_form_color}} 100%); background: -webkit-linear-gradient(left,  {{website_data.membership_description_color}} 0%,{{website_data.membership_description_color}} 50%,{{website_data.membership_form_color}} 50%,{{website_data.membership_form_color}} 100%); background: linear-gradient(to right,  {{website_data.membership_description_color}} 0%,{{website_data.membership_description_color}} 50%,{{website_data.membership_form_color}} 50%,{{website_data.membership_form_color}} 100%); filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{{website_data.membership_description_color}}', endColorstr='{{website_data.membership_form_color}}',GradientType=1 );">
+        <div class="container rooms-bar"></div>
+      </div>
+    </div>
+  </div>
+{% endif %}
+<div class="rooms-bar" id="rooms">
+  <div class="short-line"></div>
+  <h2 class="block-title">
+    {{website_data.room_section_title}}
+  </h2>
+  <div class="rooms-choice">
+    {% for room in website_data.rooms %}
+      {% if room.visible == true %}
+        {% if forloop.index0 == 0 %}
+          <a class="rooms-choice-link rooms-choice-link-active" onclick="return false;" href="">
+        {% else %}
+          <a class="rooms-choice-link" onclick="return false;" href="">
+        {% endif %}
+          {{room.name}}
+        </a>
+      {% endif %}
+    {% endfor %}
+    {% for room in website_data.custom_rooms %}
+      {% if room.visible == true %}
+        <a class="rooms-choice-link" onclick="return false;" href="">
+          {{room.title}}
+        </a>
+      {% endif %}
+    {% endfor %}
+    <div class="clear"></div>
+  </div>
+  <div class="rooms">
+    {% for room in website_data.rooms %}
+      {% if room.visible == true and room.room_type.photos.size > 0 %}
+        <div class="rooms-background">
+          <div class="rooms-container">
+            <div class="rooms-left">
+              <div class="mobile-visible photo">
+                <img src="{{room.room_type.photos.first.image | attachment_url: 'public_big'}}" />
+              </div>
+              <h2 class="rooms-left-title">
+                {{room.name}}
+              </h2>
+              <div class="rooms-description-container">
+                <p class="rooms-left-describe">
+                  {{room.description}}
+                </p>
+                <div class="more-link">
+                  <a class="more-link">More</a>
+                </div>
+                <div class="more-info">
+                  {% for facility in room.room_type.facilities %}
+                    <div class="rooms-feature">
+                      {% if facility.icon %}
+                        <i class="fa-{{facility.icon}} fa"></i>
+                      {% else %}
+                        <i class="fa-circle fa"></i>
+                      {% endif %}
+                      <label class="rooms-feature_label">
+                        {{ facility.title | get_translation: website_data.id, website_data.lang }}
+                      </label>
+                    </div>
+                  {% endfor %}
+                </div>
+                {% if website_data.booking_link == nil or website_data.booking_link == "" %}
+                  <a href="{{'/book' | link_to: website_data.link_object}}" class="booking-form-link button-book">Book now</a>
+                {% else %}
+                  <a href="{{website_data.booking_link}}" class="button-book">Book Now</a>
+                {% endif %}
+              </div>
+            </div>
+            <div class="rooms-right">
+              <img class="rooms-right-current-image" src="{{room.room_type.photos.first.image | attachment_url: 'public_big'}}">
+                {% for photo in room.room_type.photos %}
+                  {% if forloop.index0 == 0 %}
+                    <div class="active small-image" data-url="{{photo.image | attachment_url: 'public_big'}}" style="background-image: url('{{photo.image | attachment_url: 'thumb'}}')">
+                  {% else %}
+                    <div class="small-image" data-url="{{photo.image | attachment_url: 'public_big'}}" style="background-image: url('{{photo.image | attachment_url: 'thumb'}}')">
+                  {% endif %}
+                  </div>
+                {% endfor %}
+              </img>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if room.visible == true and room.room_type.photos.size == 0 %}
+        <div class="rooms-background">
+          <div class="rooms-container">
+            <div class="rooms-left">
+              <div class="mobile-visible photo">
+                <img src="http://placehold.it/735x490"/>
+              </div>
+              <h2 class="rooms-left-title">
+                {{room.name}}
+              </h2>
+              <div class="rooms-description-container">
+                <p class="rooms-left-describe">
+                  {{room.description}}
+                </p>
+                {% for facility in room.room_type.facilities %}
+                  <div class="rooms-feature">
+                    {% if facility.icon %}
+                      <i class="fa-{{facility.icon}} fa"></i>
+                    {% else %}
+                      <i class="fa-circle fa"></i>
+                    {% endif %}
+                    <label class="rooms-feature_label">
+                      {{ facility.title | get_translation: website_data.id, website_data.lang }}
+                    </label>
+                  </div>
+                {% endfor %}
+                {% if website_data.booking_link == nil or website_data.booking_link == "" %}
+                  <a href="{{'/book' | link_to: website_data.link_object}}" class="booking-form-link button-book">Book now</a>
+                {% else %}
+                  <a href="{{website_data.booking_link}}" class="button-book">Book Now</a>
+                {% endif %}
+              </div>
+            </div>
+            <div class="rooms-right">
+              <img class="rooms-right-current-image" src="http://placehold.it/735x490"/>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    {% for room in website_data.custom_rooms %}
+      {% if room.visible == true and room.website_custom_room_photos.size > 0 %}
+        <div class="rooms-background">
+          <div class="rooms-container">
+            <div class="rooms-left">
+              <div class="mobile-visible photo">
+                <img src="{{room.website_custom_room_photos.first.image | attachment_url: 'public_big'}}" />
+              </div>
+              <h2 class="rooms-left-title">
+                {{room.title}}
+              </h2>
+              <div class="rooms-description-container">
+                <p class="rooms-left-describe">
+                  {{room.description}}
+                </p>
+              </div>
+            </div>
+            <div class="rooms-right">
+              <img class="rooms-right-current-image" src="{{room.website_custom_room_photos.first.image | attachment_url: 'public_big'}}">
+                {% for photo in room.website_custom_room_photos %}
+                  {% if forloop.index0 == 0 %}
+                    <div class="active small-image" data-url="{{photo.image | attachment_url: 'public_big'}}" style="background-image: url('{{photo.image | attachment_url: 'thumb'}}')">
+                  {% else %}
+                    <div class="small-image" data-url="{{photo.image | attachment_url: 'public_big'}}" style="background-image: url('{{photo.image | attachment_url: 'thumb'}}')">
+                  {% endif %}
+                  </div>
+                {% endfor %}
+              </img>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if room.visible == true and room.website_custom_room_photos.size == 0%}
+        <div class="rooms-background">
+          <div class="rooms-container">
+            <div class="rooms-left">
+              <div class="mobile-visible photo">
+                <img src="http://placehold.it/735x490"/>
+              </div>
+              <h2 class="rooms-left-title">
+                {{room.title}}
+              </h2>
+              <div class="rooms-description-container">
+                <p class="rooms-left-describe">
+                  {{room.description}}
+                </p>
+              </div>
+            </div>
+            <div class="rooms-right">
+              <img class="rooms-right-current-image" src="http://placehold.it/735x490"/>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+<div class="default-block-container" id="features">
+  <div class="short-line"></div>
+  <div class="block-title">
+    {{website_data.features_title}}
+  </div>
+  <div class="specials">
+    {% for feature in website_data.features %}
+      <div class="specials-element">
+        <div class="specials-content">
+          <div class="specials-element-image">
+            <i class="fa fa-{{feature.icon}}"></i>
+          </div>
+          <h4 class="specials-title">
+            {{feature.title}}
+          </h4>
+          <p class="specials-describe">
+            {{feature.description}}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% if website_data.questions.size > 0 %}
+  <div class="default-block-container" id="faq">
+    <div class="short-line"></div>
+    <h2 class="block-title FAQ-title">
+      {{website_data.faq_title}}
+    </h2>
+    <div class="faq-elements">
+      {% for question in website_data.questions %}
+        <div class="FAQ-element">
+          <div class="FAQ-short-line"></div>
+          <p class="FAQ-question">
+            {{question.question}}
+          </p>
+          <p class="FAQ-answer">
+            {{question.answer}}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+<div class="contact-us" id="contacts">
+  <div class="contact-us-background-white">
+    <div class="contact-us-contacts">
+      <div class="contact-us-contacts-title">
+        <div class="short-line"></div>
+        <div class="block-title">
+          {{website_data.contact_area_title}}
+        </div>
+      </div>
+      <button class="leave-message">
+        <i class="fa fa-pencil fa-lg"></i>
+        Leave Message
+      </button>
+      <div class="form-container">
+        <div class="contact-us-contacts-describe">
+          <p class="contact-us-contacts-appeal">
+            {{website_data.contact_description_text}}
+          </p>
+          <ul class="contacts-list">
+            <li class="contacts-list-item">
+              <span class="contacts-list-item-type">Phone:</span>
+              <span class="contacts-list-item-desribe">
+                <a href="tel:{{website_data.phone_number}}">{{website_data.phone_number}}</a>
+              </span>
+            </li>
+            <li class="contacts-list-item">
+              <span class="contacts-list-item-type">Email:</span>
+              <span class="contacts-list-item-desribe">
+                <a href="mailto:{{website_data.email_address}}">
+                  {{website_data.email_address}}
+                </a>
+              </span>
+            </li>
+            <li class="contacts-list-item">
+              <span class="contacts-list-item-type">Address:</span>
+              <span class="contacts-list-item-desribe">
+                {{website_data.address}}
+              </span>
+            </li>
+            <li class="contacts-list-item">
+              <span class="contacts-list-item-type">Trip Advisor:</span>
+              <span class="contacts-list-item-desribe">
+                <a href="{{website_data.tripadvisor_listing_link}}">View Our Profile</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <form action="/send_email" method="post" id="contact-form" class="contact-us-form">
+          <input name="part_a" type="hidden" value="{{website_data.rand_a}}"></input>
+          <input name="part_b" type="hidden" value="{{website_data.rand_b}}"></input>
+          <label class="contact-us-form_label">Get In Touch</label>
+          <input class="contact-us-form_input-small" name="name" placeholder="Name" type="text"></input>
+          <input class="contact-us-form_input-small contact-us-form_input-small-right" name="email" placeholder="Email" type="text"></input>
+          <input class="contact-us-form_input" name="message" placeholder="Message" type="text"></input>
+          <input class="contact-us-form_input-small" name="answer" placeholder="{{website_data.rand_a}} + {{website_data.rand_b}} =" type="text"></input>
+          <input class="contact-us-form_input-submit" type="submit" value="Submit"></input>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="googleMap"></div>
+  {% if website_data.map_center_lat and website_data.map_center_lng %}
+    <script>
+      var zoom = {{website_data.map_zoom_level}};
+      var lat = {{website_data.map_center_lat}};
+      var lng = {{website_data.map_center_lng}};
+      function initialize() {
+        var myOptions = {
+            zoom: zoom,
+            center: new google.maps.LatLng(lat, lng),
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            scrollwheel: false
+        }
+        map = new google.maps.Map(document.getElementById("googleMap"), myOptions);
+
+        var marker = new google.maps.Marker({
+            map: map,
+            position: new google.maps.LatLng(lat, lng)
+        });
+      }
+      function loadScript() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp' +
+            '&signed_in=true&callback=initialize&key=AIzaSyCxqPAlL6tmp-Wny3tC0e_byl-jOxzu_QA';
+        document.body.appendChild(script);
+      }
+    </script>
+  {% endif %}
+</div>
+<div class="end">
+  <div class="end-container">
+    {% for footer in website_data.footers %}
+      <div class="end-block">
+        <div class="short-linke"></div>
+        <div class="end-block-title">
+          {{footer.title}}
+        </div>
+        <div class="end-block-describe">
+          {{footer.text}}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<footer>
+  <div class="footer-container">
+    <div class="footer-container-policy">
+      {% for link in website_data.footer_links %}
+        {% if link.category == 'Predefined Link' %}
+          {% if link.value == 'home' %}
+            <a href="{{'' | link_to: website_data.link_object }}">{{link.title}}</a>
+          {% elsif link.value ==  'features' %}
+            <a href="{{'/#features' | link_to: website_data.link_object}}"></a>
+          {% elsif link.value == 'contacts' %}
+            <a href="{{ '/contacts' | link_to: website_data.link_object }}">{{link.title}}</a>
+          {% elsif link.value == 'faq' %}
+            <a href="{{ '/faq' | link_to: website_data.link_object}}">{{link.title}}</a>
+          {% elsif link.value == 'about' %}
+            <a href="{{'/about' | website_data.link_object }}">{{link.title}}</a>
+          {% elsif link.value == 'blog' %}
+            <a href="{{ '/blog' | link_to: website_data.link_object }}">{{link.title}}</a>
+          {% elsif link.value == 'terms-and-conditions' %}
+            <a href="{{ '/terms-and-conditions' | link_to: website_data.link_object }}">{{link.title}}</a>
+          {% elsif link.value == 'privacy-policy' %}
+            <a href="{{ '/privacy-policy' | link_to: website_data.link_object}}">{{link.title}}</a>
+          {% elsif link.value == 'booking' %}
+            <a href="{{'/book' | link_to: website_data.link_object }}">{{link.title}}</a>
+          {% endif %}
+        {% elsif link.category == 'Custom Page Link' %}
+          <a href="{{ link.value | link_to: website_data.link_object }}">{{link.title}}</a>
+        {% elsif link.category == 'Blog Record Link' %}
+          <a href="{{ '/blog/' | append: link.value | link_to: website_data.link_object}}">{{link.title}}</a>
+        {% elsif link.category == 'Room Page Link' %}
+          <a href="{{ link.value | link_to: website_data.link_object}}">{{link.title}}</a>
+        {% else %}
+          <a href="{{link.value | link_to: website_data.link_object}}">{{link.title}}</a>
+        {% endif %}
+      {% endfor %}
+      <span class="footer-policy-copyright">© {{ 'now' | date: "%Y" }} {{website_data.hotel_name}}. All rights reserved</span>
+    </div>
+    <div class="footer-container-powered-by">
+      <img class="footer-powered-by-image" alt="" src="/5/images/booking-factory.png" />
+      <div class="footer-powered-by-text">
+        <span class="footer-powered-by-regular">Hotel Website Powered By</span>
+        <a class="footer-powered-by-link" href="http://thebookingfactory.com"> thebookingfactory.com </a>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,32 @@
+<nav class="other" id="menu">
+  <div class="navbar" id="mobile-menu">
+    {% if website_data.logo_text == nil or website_data.logo_text == '' %}
+      <img src="{{website_data.logo | attachment_url: 'default'}}" class="menu-logo" />
+    {% else %}
+      <span class="menu-logo">
+        {{website_data.logo_text}}
+      </span>
+    {% endif %}
+    <img class="menu-start" src="/5/images/menu-hr.png"/>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a class="menu-item" href="{{ '/#' | link_to: website_data.link_object }}">Home</a>
+      </li>
+      <li>
+        <a class="menu-item" href="{{ '/#rooms' | link_to: website_data.link_object }}">Rooms</a>
+      </li>
+      <li>
+        <a class="menu-item" href="{{ '/#features' | link_to: website_data.link_object}}">Features</a>
+      </li>
+      <li>
+        <a class="menu-item" href="{{ '/#about' | link_to: website_data.link_object}}">About Us</a>
+      </li>
+      <li>
+        <a class="menu-item" href="{{ '/#faq' | link_to: website_data.link_object}}">FAQ</a>
+      </li>
+      <li>
+        <a class="menu-item" href="{{ '/#contacts' | link_to: website_data.link_object}}">Contact Us</a>
+      </li>
+    </ul>
+  </div>
+</nav>
