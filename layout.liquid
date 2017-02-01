@@ -233,6 +233,7 @@
       if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
       else window.addEventListener('load', loadDeferredStyles);
     </script>
+    {{website_data.ga_code}}
     <script async src="{{ '/js/template.js' | file_url: website_data.template }}"></script>
   </body>
 </html>
