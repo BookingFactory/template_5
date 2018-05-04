@@ -300,7 +300,7 @@
             </li>
           </ul>
         </div>
-        <form action="/send_email" method="post" id="contact-form" class="contact-us-form">
+        <form id="contact-form" method="POST" action="{{ "/send_mail" | link_to: website_data.link_object }}" class="contact-us-form">
           <input name="part_a" type="hidden" value="{{website_data.rand_a}}"></input>
           <input name="part_b" type="hidden" value="{{website_data.rand_b}}"></input>
           <label class="contact-us-form_label">Get In Touch</label>
