@@ -273,13 +273,13 @@
           </p>
           <ul class="contacts-list">
             <li class="contacts-list-item">
-              <span class="contacts-list-item-type">Phone:</span>
+              <span class="contacts-list-item-type">{{ 'Phone' | t: website_data.lang }}:</span>
               <span class="contacts-list-item-desribe">
                 <a href="tel:{{website_data.phone_number}}">{{website_data.phone_number}}</a>
               </span>
             </li>
             <li class="contacts-list-item">
-              <span class="contacts-list-item-type">Email:</span>
+              <span class="contacts-list-item-type">{{ 'Email' | t: website_data.lang }}:</span>
               <span class="contacts-list-item-desribe">
                 <a href="mailto:{{website_data.email_address}}">
                   {{website_data.email_address}}
@@ -287,15 +287,15 @@
               </span>
             </li>
             <li class="contacts-list-item">
-              <span class="contacts-list-item-type">Address:</span>
+              <span class="contacts-list-item-type">{{ 'Address' | t: website_data.lang }}:</span>
               <span class="contacts-list-item-desribe">
                 {{website_data.address}}
               </span>
             </li>
             <li class="contacts-list-item">
-              <span class="contacts-list-item-type">Trip Advisor:</span>
+              <span class="contacts-list-item-type">{{ 'Trip Advisor' | t: website_data.lang }}:</span>
               <span class="contacts-list-item-desribe">
-                <a href="{{website_data.tripadvisor_listing_link}}">View Our Profile</a>
+                <a href="{{website_data.tripadvisor_listing_link}}">{{ 'View Our Profile' | t: website_data.lang }}</a>
               </span>
             </li>
           </ul>
@@ -303,12 +303,12 @@
         <form id="contact-form" method="POST" action="{{ "/send_mail" | link_to: website_data.link_object }}" class="contact-us-form">
           <input name="part_a" type="hidden" value="{{website_data.rand_a}}"></input>
           <input name="part_b" type="hidden" value="{{website_data.rand_b}}"></input>
-          <label class="contact-us-form_label">Get In Touch</label>
-          <input class="contact-us-form_input-small" name="name" placeholder="Name" type="text"></input>
-          <input class="contact-us-form_input-small contact-us-form_input-small-right" name="email" placeholder="Email" type="text"></input>
-          <input class="contact-us-form_input" name="message" placeholder="Message" type="text"></input>
+          <label class="contact-us-form_label">{{ 'Get In Touch' | t: website_data.lang }}</label>
+          <input class="contact-us-form_input-small" name="name" placeholder="{{ 'Name' | t: website_data.lang }}" type="text"></input>
+          <input class="contact-us-form_input-small contact-us-form_input-small-right" name="email" placeholder="{{ 'Email' | t: website_data.lang }}" type="text"></input>
+          <input class="contact-us-form_input" name="message" placeholder="{{ 'Message' | t: website_data.lang }}" type="text"></input>
           <input class="contact-us-form_input-small" name="answer" placeholder="{{website_data.rand_a}} + {{website_data.rand_b}} =" type="text"></input>
-          <input class="contact-us-form_input-submit" type="submit" value="Submit"></input>
+          <input class="contact-us-form_input-submit" type="submit" value="{{ 'Submit' | t: website_data.lang }}"></input>
         </form>
       </div>
     </div>
