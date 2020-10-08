@@ -110,7 +110,7 @@
     {% include 'mobile_navigation' %}
     <main id="panel">
       <div class="top-bar">
-        {% if website_data.booking_link.nil or website_data.booking_link == '' %}
+        {% if website_data.booking_link == nil or website_data.booking_link == '' %}
           <a href="{{ '/book' | link_to: website_data.link_object}}" class="booking-form-link menu-button-book">Book Now</a>
         {% else %}
           <a href="{{website_data.booking_link}}" class="menu-button-book">Book Now</a>
@@ -119,7 +119,7 @@
       </div>
       <div class="mobile-menu">
         <div class="menu-toggle open-menu">
-          {% if website_data.booking_link.nil or website_data.booking_link == '' %}
+          {% if website_data.booking_link == nil or website_data.booking_link == '' %}
             <a href="{{ '/book' | link_to: website_data.link_object}}" class="booking-form-link menu-button-book">Book Now</a>
           {% else %}
             <a href="{{website_data.booking_link}}" class="menu-button-book">Book Now</a>
