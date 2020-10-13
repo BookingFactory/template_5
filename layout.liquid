@@ -119,12 +119,12 @@
       </div>
       <div class="mobile-menu">
         <div class="menu-toggle open-menu">
-          {% if website_data.booking_link == nil or website_data.booking_link == '' %}
-            <a href="{{ '/book' | link_to: website_data.link_object}}" class="booking-form-link menu-button-book">Book Now</a>
+        </div>
+        {% if website_data.booking_link == nil or website_data.booking_link == '' %}
+            <a href="{{ '/book' | link_to: website_data.link_object}}" class="booking-form-link menu-button-book">asdfsd</a>
           {% else %}
             <a href="{{website_data.booking_link}}" class="menu-button-book">Book Now</a>
           {% endif %}
-        </div>
       </div>
       <div class="menu">
         <div class="menu-content">
